@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "The Legend of Zelda: Ocarina of Time",
+    "genre": "Action  RPG",
+    "year": 1997,
+    "developer": "Nintendo"
+  },
+  {
+    "id": 2,
+    "name": "The Elder Scrolls V: Skyrim",
+    "genre": "Action RPG",
+    "year": 2011,
+    "developer": "Bethesda"
+  }
+]

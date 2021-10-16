@@ -1,0 +1,25 @@
+#game-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#game-cards .g-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 10px;
+    box-shadow: 5px 5px;
+    width: 40vw;
+}
+
+#game-cards .g-card .title {
+    font-size: 2rem;
+}
+
+@media screen and (max-width: 770px) {
+    #game-cards .g-card {
+        width: 85vw;
+    }
+}
