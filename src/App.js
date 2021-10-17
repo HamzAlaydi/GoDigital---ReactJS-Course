@@ -1,17 +1,43 @@
 import React from 'react';
 
-// import GameForm from './components/GameForm/';
-import GameCards from './components/GameCards/';
-import Hello from './components/Hello';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+// import Hello from './components/Hello';
+import Cart from './pages/Cart';
+import List from './pages/List';
 
 class App extends React.Component {
   render() {
+    console.log("app is rendering");
     return (
-      <div id="App">
-        {/* <GameForm /> */}
-        <GameCards />
-        <Hello></Hello>
-      </div>
+      <Router>
+        <div id="App">
+          <div className="nav-bar">
+            <Link to="/">
+              <button className="nav-btn">Games List</button>
+            </Link>
+            <Link to="/cart">
+              <button className="nav-btn">My cart</button>
+            </Link>
+          </div>
+
+          <Switch>
+            <Route path="/" exact>
+              <List />
+            </Route>
+            <Route path="/cart" exact>
+              <Cart />
+            </Route>
+          </Switch>
+
+          {/* <Hello></Hello> */}
+        </div>
+      </Router>
     );
   }
 }
