@@ -1,15 +1,13 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import GameForm from '../../components/GameForm/';
-import GameCards from '../../components/GameCards/';
+import GameForm from "../../components/GameForm/";
+import GameCards from "../../components/GameCards/";
 
 import * as gamesService from "../../services/games";
 
 class List extends React.Component {
-  state = {
-    games: [],
-  };
-
   getMyGamesList = async () => {
     try {
       const response = await gamesService.getAll(5);
@@ -26,14 +24,14 @@ class List extends React.Component {
         });
       }
 
-      this.setState({ games: list });
+      this.props.setGames(list);
     } catch (error) {
       console.log(error);
     }
   };
 
   updateMyGamesList = (newList) => {
-    this.setState({ games: newList });
+    this.props.setGames(newList);
   };
 
   componentDidMount() {
@@ -41,20 +39,37 @@ class List extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(`We have ${this.state.games.length} games now.`);
+    console.log(`We have ${this.props.games.length} games now.`);
   }
 
   render() {
     return (
       <div id="list">
         <GameForm
-          gamesData={this.state.games}
+          gamesData={this.props.games}
           onSubmit={this.updateMyGamesList}
         />
-        <GameCards gamesData={this.state.games} />
+        <GameCards gamesData={this.props.games} />
       </div>
     );
   }
 }
 
-export default List;
+const stateToProps = (state) => {
+  return {
+    games: state.gr.games,
+  };
+};
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      setGames: (gamesList) => {
+        return { type: "SET_GAMES", payload: gamesList };
+      },
+    },
+    dispatch
+  );
+};
+
+export default connect(stateToProps, dispatchToProps)(List);
