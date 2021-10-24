@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import { useSelector } from "react-redux";
-import { useRecoilState } from "recoil";
-import { counterState } from "../../recoil/atoms/counterAtoms";
+import { useDispatch } from "react-redux";
 
 import { renderGameElement } from "./utility";
 import generateStyles from "./styles";
@@ -11,22 +9,23 @@ import Hello from "../Hello";
 import "./styles.css";
 
 function GameCards(props) {
-  // const counter = useSelector((state) => state.cr.counter);
-
-  const [counter, _] = useRecoilState(counterState);
-
+  const dispatch = useDispatch();
   const styles = generateStyles({ bgColor: "lightgray" });
 
-  const gamesDataJSX = props.gamesData.map(renderGameElement);
+  const handleAddToCart = (data) => {
+    dispatch({ type: "ADD_TO_CART", payload: data });
+    alert("successfully added the game to your cart");
+  };
+
+  const gamesDataJSX = props.gamesData.map((game) =>
+    renderGameElement(game, false, handleAddToCart)
+  );
 
   return (
-    <>
-      <h1>Counter: {counter}</h1>
-      <div id="game-cards" style={styles.container}>
-        {gamesDataJSX}
-        <Hello />
-      </div>
-    </>
+    <div id="game-cards" style={styles.container}>
+      {gamesDataJSX}
+      <Hello />
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import {GIANTBOMB_API_KEY} from "../config";
+// import {GIANTBOMB_API_KEY} from "../config";
 
 export const getAll = (limit) => {
     // const url = `https://www.giantbomb.com/api/games/?api_key=${GIANTBOMB_API_KEY}&format=json&limit=${limit}`;

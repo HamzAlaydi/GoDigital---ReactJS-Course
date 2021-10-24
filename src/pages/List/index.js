@@ -17,6 +17,7 @@ class List extends React.Component {
       for (let i = 0; i < json.results.length; i++) {
         const game = json.results[i];
         list.push({
+          id: i,
           name: game.title,
           genre: game.producer,
           year: game.releaseDate,
@@ -44,13 +45,15 @@ class List extends React.Component {
 
   render() {
     return (
-      <div id="list">
-        <GameForm
-          gamesData={this.props.games}
-          onSubmit={this.updateMyGamesList}
-        />
-        <GameCards gamesData={this.props.games} />
-      </div>
+      <>
+        <div id="list">
+          <GameForm
+            gamesData={this.props.games}
+            onSubmit={this.updateMyGamesList}
+          />
+          <GameCards gamesData={this.props.games} />
+        </div>
+      </>
     );
   }
 }
