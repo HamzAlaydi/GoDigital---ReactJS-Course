@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { renderGameElement } from "./utility";
 import generateStyles from "./styles";
 import Hello from "../Hello";
+import { deleteById, updateById } from "../../services/games";
 
 import "./styles.css";
 
@@ -12,13 +13,30 @@ function GameCards(props) {
   const dispatch = useDispatch();
   const styles = generateStyles({ bgColor: "lightgray" });
 
-  const handleAddToCart = (data) => {
+  const handleAddToCart = data => {
     dispatch({ type: "ADD_TO_CART", payload: data });
     alert("successfully added the game to your cart");
   };
 
-  const gamesDataJSX = props.gamesData.map((game) =>
-    renderGameElement(game, false, handleAddToCart)
+  const handleGameDelete = async id => {
+    try {
+      await deleteById(id);
+      dispatch({ type: "REMOVE_GAME", payload: id });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleGameScore = async (id, score) => {
+    try {
+      await updateById({id, meta: {score}});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const gamesDataJSX = props.gamesData.map(game =>
+    renderGameElement(game, false, handleAddToCart, handleGameDelete, handleGameScore)
   );
 
   return (
@@ -30,11 +48,11 @@ function GameCards(props) {
 }
 
 GameCards.defaultProps = {
-  gamesData: [],
+  gamesData: []
 };
 
 GameCards.propTypes = {
-  gamesData: PropTypes.array,
+  gamesData: PropTypes.array
 };
 
 export default GameCards;

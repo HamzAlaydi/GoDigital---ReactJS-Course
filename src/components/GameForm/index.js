@@ -1,41 +1,50 @@
-import React from 'react';
+import React from "react";
+import { create } from "../../services/games";
 import "./styles.css";
 
 class GameForm extends React.Component {
   state = {
     formData: {},
-    errors: {},
+    errors: {}
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = async event => {
+    try {
+      event.preventDefault();
 
-    const data = this.state.formData;
+      const data = this.state.formData;
 
-    const gameObj = {
-      id: this.props.gamesData.length,
-      name: data["game-name"],
-      genre: data["game-genre"],
-      year: data["game-year"],
-      developer: data["game-developer"],
-    };
+      const gameObj = {
+        name: data["game-name"],
+        genre: data["game-genre"],
+        year: parseInt(data["game-year"]),
+        developers: data["game-developer"]
+      };
 
-    this.props.onSubmit([...this.props.gamesData, gameObj]);    
+      const createdGames = await create(gameObj);
+      const myNewGame = { id: createdGames[0]._id, ...createdGames[0] };
+
+      this.props.onSubmit([...this.props.gamesData, myNewGame]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  handleChange = (event) => {
-    const {name, value} = event.target;
+  handleChange = event => {
+    const { name, value } = event.target;
 
     if (name === "game-year" && isNaN(value)) {
-      this.setState({errors: {...this.state.errors, [name]: "Please use a number"}})
+      this.setState({
+        errors: { ...this.state.errors, [name]: "Please use a number" }
+      });
       return;
     } else {
       this.setState({
         formData: { ...this.state.formData, [name]: value },
-        errors: {},
+        errors: {}
       });
     }
-  }
+  };
 
   render() {
     return (
@@ -61,9 +70,7 @@ class GameForm extends React.Component {
             />
           </div>
 
-          <span style={{ color: "red" }}>
-              {this.state.errors["game-year"]}
-            </span>
+          <span style={{ color: "red" }}>{this.state.errors["game-year"]}</span>
           <div className="form-item">
             <label htmlFor="game-year">Year</label>
             <input
