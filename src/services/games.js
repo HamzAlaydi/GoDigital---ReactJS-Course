@@ -20,16 +20,16 @@ export const getAll = async (params = {}) => {
   }
 };
 
-export const create = async data => {
+export const create = async (data) => {
   try {
     let url = MY_API_GAMES_ENDPOINT;
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     const json = await response.json();
 
@@ -46,9 +46,9 @@ export const updateById = async ({ id, ...data }) => {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     const json = await response.json();
 
@@ -58,12 +58,12 @@ export const updateById = async ({ id, ...data }) => {
   }
 };
 
-export const deleteById = async id => {
+export const deleteById = async (id) => {
   try {
     let url = `${MY_API_GAMES_ENDPOINT}/${id}`;
 
     const response = await fetch(url, {
-      method: "DELETE"
+      method: "DELETE",
     });
     const json = await response.json();
 
